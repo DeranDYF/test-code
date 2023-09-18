@@ -5,6 +5,7 @@
 terdapat beberapa hal yang perlu dilakukan:
 
 - Ketika sudah melakukan pull / Clone Git jangan lupa untuk me-rename file "_vendor" dan "env" menjadi "vendor" dan ".env"
-- Sekian dan terima kasih.
+- Jangan lupa untuk Mengimport database yang bernama "laravel.sql".
+- Sudah begitu saja sekian dan terima kasih.
 
 ## DYFZNNN ##
