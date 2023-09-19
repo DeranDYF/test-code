@@ -21,144 +21,147 @@
                 data-bs-target="#modalAddUser">Add User
             </button>
         </div>
-        <div class="table-responsive text-nowrap">
-            <table class="table">
-                <thead>
+        <div class="card-body">
+            <div class="table-responsive text-nowrap">
+                <table class="datatables-user table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    @php $no = 1 @endphp
+                    @foreach($users as $tm)
                     <tr>
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Role</th>
-                        <th>Email</th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </thead>
-                @php $no = 1 @endphp
-                @foreach($users as $tm)
-                <tr>
-                    <td>{{ $no++}}</td>
-                    <td>{{ $tm->name }}</td>
-                    <td>{{ $tm->role->name }}</td>
-                    <td>{{ $tm->email }}</td>
-                    <td class="text-center">
-                        <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="ti ti-dots-vertical"></i>
-                            </button>
-                            <div class="dropdown-menu">
-
-                                <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#modalEditUser{{ $tm->id }}">
-                                    Edit
+                        <td>{{ $no++}}</td>
+                        <td>{{ $tm->name }}</td>
+                        <td>{{ $tm->role->name }}</td>
+                        <td>{{ $tm->email }}</td>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                    data-bs-toggle="dropdown">
+                                    <i class="ti ti-dots-vertical"></i>
                                 </button>
+                                <div class="dropdown-menu">
 
-                                <button type="button" class="dropdown-item btn-label-danger"
-                                    id="confirm-text{{ $tm->id }}">Delete</button>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                        data-bs-target="#modalEditUser{{ $tm->id }}">
+                                        Edit
+                                    </button>
 
+                                    <button type="button" class="dropdown-item btn-label-danger"
+                                        id="confirm-text{{ $tm->id }}">Delete</button>
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <script>
+                    /**
+                     * Sweet Alerts
+                     */
+
+                    'use strict';
+
+                    (function() {
+                        const basicAlert = document.querySelector('#basic-alert'),
+                            ajaxRequest = document.querySelector('#ajax-request'),
+                            confirmText = document.querySelector('#confirm-text{{ $tm->id }}'),
+                            confirmColor = document.querySelector('#confirm-color');
+
+
+                        // Alert With Functional Confirm Button
+                        if (confirmText) {
+                            confirmText.onclick = function() {
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: "Delete User Named {{ $tm->name }}",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Yes, delete it!',
+                                    customClass: {
+                                        confirmButton: 'btn btn-label-danger me-3',
+                                        cancelButton: 'btn btn-label-secondary'
+                                    },
+                                    buttonsStyling: false
+                                }).then(function(result) {
+                                    if (result.value) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Deleted!',
+                                            text: 'User has been deleted.',
+                                            showConfirmButton: false,
+                                            timer: 1500,
+                                            customClass: {
+                                                confirmButton: 'btn btn-success'
+                                            }
+                                        }).then(function() {
+                                            window.location.href =
+                                                "{{ route('deleteuser', $tm->id) }}";
+                                        });
+                                    }
+                                });
+                            };
+                        }
+                    })();
+                    </script>
+                    <!-- Modal Edit User -->
+                    <div class="modal fade" id="modalEditUser{{ $tm->id }}" tabindex="2" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="add">
+                            <div class="modal-content">
+                                <form method="POST" action="{{ route('edituser',[$tm->id]) }}">
+                                    @csrf
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalCenterTitle">Edit User</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="fullname" class="form-label required">Fullname</label>
+                                                <input type="text" name="name" id="name" class="form-control mb-3"
+                                                    value="{{ $tm->name }}" placeholder="Enter Fullname" required />
+                                                <label for="email" class="form-label required">Email</label>
+                                                <input type="email" name="email" id="email" class="form-control"
+                                                    value="{{ $tm->email }}" required />
+                                            </div>
+
+                                        </div>
+                                        <div class="row g-2">
+                                            <div class="col mb-0">
+                                                <label for="role" class="form-label required">Role</label>
+                                                <select class="form-select" name="edit_role" data-allow-clear="true"
+                                                    required>
+                                                    @foreach ($role as $rl)
+                                                    @if ($rl->id == $tm->id_role)
+                                                    <option selected value="{{ $rl->id }}">{{ $rl->name }}</option>
+                                                    @else
+                                                    <option value="{{ $rl->id }}">{{ $rl->name }}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" id="editUser">Edit User</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </td>
-                </tr>
-                <script>
-                /**
-                 * Sweet Alerts
-                 */
-
-                'use strict';
-
-                (function() {
-                    const basicAlert = document.querySelector('#basic-alert'),
-                        ajaxRequest = document.querySelector('#ajax-request'),
-                        confirmText = document.querySelector('#confirm-text{{ $tm->id }}'),
-                        confirmColor = document.querySelector('#confirm-color');
-
-
-                    // Alert With Functional Confirm Button
-                    if (confirmText) {
-                        confirmText.onclick = function() {
-                            Swal.fire({
-                                title: 'Are you sure?',
-                                text: "Delete User Named {{ $tm->name }}",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'Yes, delete it!',
-                                customClass: {
-                                    confirmButton: 'btn btn-label-danger me-3',
-                                    cancelButton: 'btn btn-label-secondary'
-                                },
-                                buttonsStyling: false
-                            }).then(function(result) {
-                                if (result.value) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Deleted!',
-                                        text: 'User has been deleted.',
-                                        showConfirmButton: false,
-                                        timer: 1500,
-                                        customClass: {
-                                            confirmButton: 'btn btn-success'
-                                        }
-                                    }).then(function() {
-                                        window.location.href =
-                                            "{{ route('deleteuser', $tm->id) }}";
-                                    });
-                                }
-                            });
-                        };
-                    }
-                })();
-                </script>
-                <!-- Modal Edit User -->
-                <div class="modal fade" id="modalEditUser{{ $tm->id }}" tabindex="2" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="add">
-                        <div class="modal-content">
-                            <form method="POST" action="{{ route('edituser',[$tm->id]) }}">
-                                @csrf
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalCenterTitle">Edit User</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col mb-3">
-                                            <label for="fullname" class="form-label required">Fullname</label>
-                                            <input type="text" name="name" id="name" class="form-control mb-3"
-                                                value="{{ $tm->name }}" placeholder="Enter Fullname" required />
-                                            <label for="email" class="form-label required">Email</label>
-                                            <input type="email" name="email" id="email" class="form-control"
-                                                value="{{ $tm->email }}" required />
-                                        </div>
-
-                                    </div>
-                                    <div class="row g-2">
-                                        <div class="col mb-0">
-                                            <label for="role" class="form-label required">Role</label>
-                                            <select id="select2" class="select2 form-select" name="role"
-                                                data-allow-clear="true" required>
-                                                @foreach ($role as $rl)
-                                                @if ($rl->id == $tm->id_role)
-                                                <option selected value="{{ $rl->id }}">{{ $rl->name }}</option>
-                                                @else
-                                                <option value="{{ $rl->id }}">{{ $rl->name }}</option>
-                                                @endif
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                                        Close
-                                    </button>
-                                    <button type="submit" class="btn btn-primary" id="editUser">Edit User</button>
-                                </div>
-                            </form>
-                        </div>
                     </div>
-                </div>
-                <!-- End Modal User -->
-                @endforeach
-            </table>
+                    <!-- End Modal User -->
+                    @endforeach
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -189,11 +192,6 @@
                             <label for="password" class="form-label required">Password</label>
                             <input type="password" name="password" id="password" class="form-control"
                                 placeholder="Enter Password" required />
-                        </div>
-                        <div class="col mb-0">
-                            <label for="confirmPassword" class="form-label required">Confirm Password</label>
-                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
-                                placeholder="Enter Confirm Password" required />
                         </div>
                     </div>
                     <div class="row g-2">

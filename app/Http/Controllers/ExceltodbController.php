@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Excels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use App\Models\Category;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ExcelImport;
+
 
 class ExceltodbController extends Controller
 {
@@ -18,47 +24,45 @@ class ExceltodbController extends Controller
     {
         $data['activeMenu'] = 'exceltodb';
         $data['title'] = 'Excel to Database';
+        $data['excel'] = Excels::all();
         return view('exceltodb', $data);
     }
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'excels' => ['required', 'max:5120'],
         ]);
     }
-    //Fungsi Tambah Category
+
     protected function create(Request $request)
     {
-        Category::create([
-            'name' => $request->input('name'),
-            'descriptions' => $request->input('descriptions'),
-        ]);
-        Session::flash('success', 'Success Added New Category');
-        return redirect('category');
+        
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            $validationErrors = $validator->errors()->all();
+            Session::flash('failedValidation', $validationErrors);
+            return redirect('exceltodb');
+        } else {
+            if ($request->hasFile('excels')) {
+                $file = $request->file('excels');
+                if ($file->getSize() > 5 * 1024 * 1024) {
+                    Session::flash('failed', 'File size exceeds the limit of 5 MB.');
+                    return redirect('exceltodb');
+                }
+                $extension = $file->getClientOriginalExtension();
+                $filename = 'file_' . Str::random(40) . '.' . $extension;
+                $path = $file->move(public_path('doc'), $filename);
+                if ($path !== false) { 
+                    Excel::import(new ExcelImport, public_path('/doc/' . $filename));
+                    Session::flash('success', 'Success Added New Data');
+                } else {
+                    Session::flash('failed', 'Failed to upload and save the file.');
+                }
+            } else {
+                Session::flash('failed', 'No file uploaded.');
+            }
+            return redirect('exceltodb');
+        }
     }
 
-    //Fungsi Aksi Delete Category
-
-    protected function delete(Request $request)
-    {
-
-        Category::find($request->id)->delete();
-        Session::flash('success', 'Success Deleted Category');
-
-        return redirect('category');
-    }
-
-    //Fungsi Aksi Ubah Category
-    protected function edit(Request $request)
-    {
-
-        Category::find($request->id)
-            ->update([
-                'name' => $request->input('name'),
-                'descriptions' => $request->input('descriptions'),
-            ]);
-
-        Session::flash('success', 'Success Edit Category');
-        return redirect('category');
-    }
 }

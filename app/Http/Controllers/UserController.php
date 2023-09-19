@@ -34,8 +34,7 @@ class UserController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'confirmPassword' => ['required', 'string', 'same:password'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
     }
 
@@ -48,12 +47,12 @@ class UserController extends Controller
             Session::flash('failedValidation', $validationErrors);
             return redirect('user');
         } else {
-            $create = User::create([
-                'id_role' => $request->input('role'),
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password')),
-            ]);
+                $create = User::create([
+                    'id_role' => $request->input('role'),
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => Hash::make($request->input('password')),
+                ]);
             if ($create) {
                 Session::flash('success', 'Success Added New User');
             } else {
@@ -77,18 +76,11 @@ class UserController extends Controller
 
     protected function edit(Request $request)
     {
-        $validator = $this->validator($request->all());
-
-        if ($validator->fails()) {
-            $validationErrors = $validator->errors()->all();
-            Session::flash('failedValidation', $validationErrors);
-            return redirect('user');
-        } else {
             $update = User::find($request->id)
                 ->update([
                     'name' => $request->input('name'),
                     'email' => $request->input('email'),
-                    'id_role' => $request->input('role')
+                    'id_role' => $request->input('edit_role'),
                 ]);
 
             if ($update) {
@@ -97,6 +89,6 @@ class UserController extends Controller
                 Session::flash('failed', 'Failed Edit User');
             }
             return redirect('user');
-        }
     }
+    
 }

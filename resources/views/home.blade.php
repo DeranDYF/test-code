@@ -67,8 +67,8 @@
                         <img class="d-block" src="../../assets/img/carousel_4.jpg" alt="Four slide" />
                         <div class="carousel-caption d-none d-md-block">
                             <h4>Indexing Database</h4>
-                            <p>yaitu meload data dari database apa yang dibutuhkan sehingga dapat mempercepat penampilan
-                                data.</p>
+                            <p>yaitu untuk meningkatkan performa Query sehingga aplikasi tidak menjadi lamban saat
+                                meload Query banyak data.</p>
                         </div>
                     </div>
                 </div>

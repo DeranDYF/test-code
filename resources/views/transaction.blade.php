@@ -15,7 +15,8 @@
     <div class="card mb-4">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="card-header">List Data</h5>
-            <button type="button" class="btn bts-sm btn-label-primary mx-3" data-bs-toggle="modal" data-bs-target="#modalAddData">Add Data
+            <button type="button" class="btn bts-sm btn-label-primary mx-3" data-bs-toggle="modal"
+                data-bs-target="#modalAddData">Add Data
             </button>
         </div>
     </div>
@@ -34,9 +35,11 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nama_depan" class="form-label required">Nama Depan</label>
-                                <input type="text" name="nama_depan" id="nama_depan" class="form-control mb-3" placeholder="Masukan Nama Depan" required />
+                                <input type="text" name="nama_depan" id="nama_depan" class="form-control mb-3"
+                                    placeholder="Masukan Nama Depan" required />
                                 <label for="nama_belakang" class="form-label required">Nama Belakang</label>
-                                <input type="text" name="nama_belakang" id="nama_belakang" class="form-control" placeholder="Masukan Nama Belakang" required />
+                                <input type="text" name="nama_belakang" id="nama_belakang" class="form-control"
+                                    placeholder="Masukan Nama Belakang" required />
                             </div>
                         </div>
                     </div>
@@ -55,7 +58,7 @@
             <div class="card mb-2">
                 <div class="card-body">
                     <div class="table-responsive text-nowrap">
-                        <table class="table">
+                        <table class="datatables-user table">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -80,7 +83,7 @@
             <div class="card mb-2">
                 <div class="card-body">
                     <div class="table-responsive text-nowrap">
-                        <table class="table">
+                        <table class="datatables-user table">
                             <thead>
                                 <tr>
                                     <th>No</th>

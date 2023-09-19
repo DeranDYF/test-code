@@ -6,11 +6,17 @@
 
 $(function () {
   var dt_ajax_table = $('.datatables-ajax'),
-    dt_filter_table = $('.dt-column-search'),
-    dt_adv_filter_table = $('.dt-advanced-search'),
-    dt_responsive_table = $('.dt-responsive'),
-    startDateEle = $('.start_date'),
-    endDateEle = $('.end_date');
+      dt_ajax_carousel = $('.datatables-carousel'),
+      dt_ajax_datatabale = $('.datatables'),
+      dt_ajax_user = $('.datatables-user'),
+      dt_ajax_role = $('.datatables-role'),
+      dt_ajax_categories = $('.datatables-categories'),
+      dt_ajax_equipment = $('.datatables-equipment'),
+      dt_filter_table = $('.dt-column-search'),
+      dt_adv_filter_table = $('.dt-advanced-search'),
+      dt_responsive_table = $('.dt-responsive'),
+      startDateEle = $('.start_date'),
+      endDateEle = $('.end_date');
 
   // Advanced Search Functions Starts
   // --------------------------------------------------------------------
@@ -94,6 +100,46 @@ $(function () {
   // Ajax Sourced Server-side
   // --------------------------------------------------------------------
 
+  if (dt_ajax_user.length) {
+    var dt_ajax = dt_ajax_user.dataTable({
+      processing: true,
+      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>><"table-responsive"t><"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      lengthChange: false
+    });
+  }
+
+  if (dt_ajax_categories.length) {
+    var dt_ajax = dt_ajax_categories.dataTable({
+      processing: true,
+      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>><"table-responsive"t><"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      lengthChange: false
+    });
+  }
+
+  if (dt_ajax_role.length) {
+    var dt_ajax = dt_ajax_role.dataTable({
+      processing: true,
+      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>><"table-responsive"t><"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      lengthChange: false
+    });
+  }
+
+  if (dt_ajax_equipment.length) {
+    var dt_ajax = dt_ajax_equipment.dataTable({
+      processing: true,
+      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>><"table-responsive"t><"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      lengthChange: false
+    });
+  }
+
+  if (dt_ajax_carousel.length) {
+    var dt_ajax = dt_ajax_carousel.dataTable({
+      processing: true,
+      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>><"table-responsive"t><"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      lengthChange: false
+    });
+  }
+  
   if (dt_ajax_table.length) {
     var dt_ajax = dt_ajax_table.dataTable({
       processing: true,
@@ -101,6 +147,101 @@ $(function () {
       dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>><"table-responsive"t><"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>'
     });
   }
+
+
+
+  // if (dt_ajax_carousel.length) {
+  //   var dt_ajax = dt_ajax_carousel.DataTable({
+  //     processing: true,
+  //     ajax: {
+  //       url: "/get_all",
+  //       dataType: 'json',
+  //       dataSrc: ''
+  //     },
+  //     columns: [
+  //       {
+  //         "data": null,
+  //         "class": "text-center",
+  //         "searchable": false,
+  //         "render": function(data, type, row, meta) {
+  //           return meta.row + meta.settings._iDisplayStart + 1;
+  //         }
+  //       },
+  //       { data: 'title' },
+  //       {
+  //         data: null,
+  //         class: "text-center",
+  //         searchable: false,
+  //         render: function(data, type, row) {
+  //           var editButton = '<button class="btn btn-icon btn-primary btn-edit" data-id="' + row.id + '"><span class="ti ti-edit ti-flashing-hover"></span></button>';
+  //           var deleteButton = '<button class="btn btn-icon btn-danger btn-delete" data-id="' + row.id + '"><span class="ti ti-trash ti-flashing-hover"></span></button>';
+  //           return editButton + ' ' + deleteButton;
+  //         }
+  //       },
+  
+  //     ],
+  //     dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>><"table-responsive"t><"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+  //     lengthChange: false
+  //   });
+
+  //   $(document).on('click', '.btn-edit', function() {
+  //     var id = $(this).data('id');
+  //     var targetModal = $(this).data('bs-target');
+      
+  //     // Menampilkan modal dengan ID yang sesuai
+  //     $(targetModal).modal('show');
+  //   });
+  
+  //   $(document).on('click', '.btn-delete', function() {
+  //     var id = $(this).data('id');
+      
+  //     Swal.fire({
+  //       title: 'Are you sure?',
+  //       text: 'Delete Carousel',
+  //       icon: 'warning',
+  //       showCancelButton: true,
+  //       confirmButtonText: 'Yes, delete it!',
+  //       customClass: {
+  //         confirmButton: 'btn btn-danger me-3',
+  //         cancelButton: 'btn btn-secondary'
+  //       },
+  //       buttonsStyling: false
+  //     }).then(function(result) {
+  //       if (result.value) {
+  //         $.ajax({
+  //           type: "POST",
+  //           url: "/deletecarousel/" + id,
+  //           data: {
+  //             id: id,
+  //           },
+  //           headers: {
+  //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  //           },
+  //           success: function(response) {
+  //             Swal.fire({
+  //               icon: 'success',
+  //               title: 'Deleted!',
+  //               text: 'Carousel has been deleted.',
+  //               showConfirmButton: false,
+  //               timer: 1500,
+  //               customClass: {
+  //                 confirmButton: 'btn btn-success'
+  //               }
+  //             }).then(function() {
+  //               location.reload();
+  //               // dt_ajax.ajax.reload();
+  //               console.log(response);
+  //             });
+  //           },
+  //           error: function(xhr, status, error) {
+  //             // Tangani kesalahan yang terjadi saat penghapusan
+  //             console.error(xhr.responseText);
+  //           }
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
 
   // Column Search
   // --------------------------------------------------------------------
