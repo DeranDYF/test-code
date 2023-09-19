@@ -4,8 +4,21 @@
 
 terdapat beberapa hal yang perlu dilakukan:
 
-- Ketika sudah melakukan pull / Clone Git jangan lupa untuk me-rename file "_vendor" dan "env" menjadi "vendor" dan ".env"
+- Ketika sudah melakukan pull / Clone Git jangan lupa untuk me-rename file "_vendor" dan "env" menjadi "vendor" dan ".env".
 - Jangan lupa untuk Mengimport database yang bernama "laravel.sql".
+- untuk contoh file xlsx sudah tersedia didalam project bernama "test_data.xlsx".
 - Sudah begitu saja sekian dan terima kasih.
+
+-------------------------------------------
+Akses Login
+
+Admin 
+email    : admin.admin@gmail.com
+password : admin123
+
+User
+email    : user.user@gmail.com
+password : user12345 
+
 
 ## DYFZNNN ##
