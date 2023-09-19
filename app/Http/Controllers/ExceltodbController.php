@@ -54,6 +54,7 @@ class ExceltodbController extends Controller
                 $path = $file->move(public_path('doc'), $filename);
                 if ($path !== false) { 
                     Excel::import(new ExcelImport, public_path('/doc/' . $filename));
+                    File::delete(public_path('/doc/' . $filename));
                     Session::flash('success', 'Success Added New Data');
                 } else {
                     Session::flash('failed', 'Failed to upload and save the file.');
