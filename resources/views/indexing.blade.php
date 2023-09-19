@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="card-body">
     @if (session('status'))
     <div class="alert alert-success" role="alert">
@@ -26,6 +25,7 @@
                             <th>No</th>
                             <th>Judul</th>
                             <th>Penulis</th>
+                            <th>Toko Buku</th>
                         </tr>
                     </thead>
                     @php $no = 1 @endphp
@@ -34,6 +34,7 @@
                         <td>{{ $no++}}</td>
                         <td>{{ $bk->judul }}</td>
                         <td>{{ $bk->penulis }}</td>
+                        <td>{{ $bk->nama_toko }}</td>
                     </tr>
                     @endforeach
                 </table>

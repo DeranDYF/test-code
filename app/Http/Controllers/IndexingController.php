@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Buku;
+
 class IndexingController extends Controller
 {
     public function __construct()
@@ -16,7 +16,10 @@ class IndexingController extends Controller
     {
         $data['activeMenu'] = 'indexing';
         $data['title'] = 'Indexing Data';
-        $data['buku'] = Buku::orderBy('judul', 'asc')->get();
+        $data['buku'] = Buku::join('toko_bukus', 'bukus.id_toko_buku', '=', 'toko_bukus.id')
+            ->select('bukus.*', 'toko_bukus.nama_toko')
+            ->orderBy('judul')
+            ->get();
         return view('indexing', $data);
     }
 }
