@@ -12,11 +12,11 @@ terdapat beberapa hal yang perlu dilakukan:
 -------------------------------------------
 Akses Login
 
-Admin 
+Admin<br> 
 email    : admin.admin@gmail.com
 password : admin123
 
-User
+User<br>
 email    : user.user@gmail.com
 password : user12345 
 
